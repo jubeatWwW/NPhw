@@ -5,7 +5,7 @@ import socket
 import sys
 import json
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-server_address = ('140.113.123.225'a,5567)
+server_address = ('140.113.123.225',5567)
 sock.bind(server_address)
 
 accounts = []
@@ -50,7 +50,6 @@ while True:
 
     if data:
         recvdata = json.loads(data)
-
         for i in savelist:
             if i[2] == 0:
                 accounts[i[0]][2] += i[1]
@@ -70,6 +69,8 @@ while True:
                 accounts[i][2] = 0
                 print "boom!!!"
                 bombcnt = [0,0]
+
+        print "Receive Action: "+recvdata['action']
 
         if recvdata['action'] == "init":
             idchk = searchAccByID(recvdata['account_id'])
@@ -92,9 +93,9 @@ while True:
             if curID >=0:
                 if accounts[curID][2] >= recvdata['money']:
                     accounts[curID][2] -= recvdata['money']
-                    print accounts[curID][0]+" withdraw "+str(recvdata['money']
-                    print accounts[curID][0]+"'s deposit: "+str(accounts[curID][2])
                     sendOKMsg(address)
+                    print accounts[curID][0]+" withdraw "+str(recvdata['money'])
+                    print accounts[curID][0]+"'s deposit: "+str(accounts[curID][2])
                 else:
                     sendErrMsg(address, "invalid transaction")
             else:
