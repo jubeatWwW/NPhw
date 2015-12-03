@@ -5,7 +5,7 @@ import socket
 import sys
 import json
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-server_address = ('localhost',55668)
+server_address = ('140.113.123.225',5566)
 sock.bind(server_address)
 
 accounts = []
@@ -23,8 +23,10 @@ def sendOKMsg(addr):
     sent = sock.sendto(json.dumps(retdata), addr)
 
 def sendErrMsg(addr, msg):
+    print "error: "+msg
     retdata = {'message':msg}
     sent = sock.sendto(json.dumps(retdata), addr)
+
 
 def searchAccByName(name):
     for account in accounts:
@@ -59,8 +61,8 @@ while True:
             if curID >= 0:
                 accounts[curID][2] += recvdata['money']
                 sendOKMsg(address)
-                print accounts[curID][0]+" save "+recvdata['money']
-                print "deposit: "+accounts[curID][2]
+                print accounts[curID][0]+" save "+str(recvdata['money'])
+                print "deposit: "+str(accounts[curID][2])
             else:
                 sendErrMsg(address, "error: account not find")
         elif recvdata['action'] == "withdraw":
@@ -69,8 +71,8 @@ while True:
                 if accounts[curID][2] >= recvdata['money']:
                     accounts[curID][2] -= recvdata['money']
                     sendOKMsg(address)
-                    print accounts[curID][0]+" withdraw "+recvdata['money']
-                    print "deposit: "+accounts[curID][2]
+                    print accounts[curID][0]+" withdraw "+str(recvdata['money'])
+                    print "deposit: "+str(accounts[curID][2])
                 else:
                     sendErrMsg(address, "invalid transaction")
             else:
@@ -83,9 +85,9 @@ while True:
                     accounts[curID][2] -= recvdata['money']
                     accounts[desID][2] += recvdata['money']
                     sendOKMsg(address)
-                    print accounts[curID][0]+" remit "+recvdata['money']+" to "+accounts[desID][0]
-                    print accounts[curID][0]+"'s deposit: "+accounts[curID][2]
-                    print accounts[desID][0]+"'s deposit: "+accounts[desID][2]
+                    print accounts[curID][0]+" remit "+str(recvdata['money'])+" to "+str(accounts[desID][0])
+                    print accounts[curID][0]+"'s deposit: "+str(accounts[curID][2])
+                    print accounts[desID][0]+"'s deposit: "+str(accounts[desID][2])
                 else:
                     sendErrMsg(address, "invalid transaction")
             elif curID == desID:
@@ -99,7 +101,7 @@ while True:
             if curID >=0:
                 retdata = {'message':accounts[curID][2]}
                 sent = sock.sendto(json.dumps(retdata),address)
-                print accounts[curID][0]+"'s deposit: "+accounts[curID][2]
+                print accounts[curID][0]+"'s deposit: "+str(accounts[curID][2])
             else:
                 sendErrMsg(address, "error: account not find")
         elif recvdata['action'] == "bomb":
@@ -110,7 +112,7 @@ while True:
             accounts = []
             retdata = {'message':"end"}
             sent = sock.sendto(json.dumps(retdata),address)
-        """print accounts"""
+        print "-------------------------------"
 
 
 
