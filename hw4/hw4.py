@@ -45,6 +45,7 @@ while True:
 
     if data:
         recvdata = json.loads(data)
+        print "Receive Action: "+recvdata['action']
         if recvdata['action'] == "init":
             idchk = searchAccByID(recvdata['account_id'])
             if idchk >= 0:
@@ -52,11 +53,14 @@ while True:
             else:
                 accounts.append([recvdata['account_name'], recvdata['account_id'], int(0), address[1]])
                 sendOKMsg(address)
+                print recvdata['account_name']+"  "+recvdata['account_id']
         elif recvdata['action'] == "save":
             curID = getAccID(address[1])
             if curID >= 0:
                 accounts[curID][2] += recvdata['money']
                 sendOKMsg(address)
+                print accounts[curID][0]+" save "+recvdata['money']
+                print "deposit: "+accounts[curID][2]
             else:
                 sendErrMsg(address, "error: account not find")
         elif recvdata['action'] == "withdraw":
@@ -65,6 +69,8 @@ while True:
                 if accounts[curID][2] >= recvdata['money']:
                     accounts[curID][2] -= recvdata['money']
                     sendOKMsg(address)
+                    print accounts[curID][0]+" withdraw "+recvdata['money']
+                    print "deposit: "+accounts[curID][2]
                 else:
                     sendErrMsg(address, "invalid transaction")
             else:
@@ -77,6 +83,9 @@ while True:
                     accounts[curID][2] -= recvdata['money']
                     accounts[desID][2] += recvdata['money']
                     sendOKMsg(address)
+                    print accounts[curID][0]+" remit "+recvdata['money']+" to "+accounts[desID][0]
+                    print accounts[curID][0]+"'s deposit: "+accounts[curID][2]
+                    print accounts[desID][0]+"'s deposit: "+accounts[desID][2]
                 else:
                     sendErrMsg(address, "invalid transaction")
             elif curID == desID:
@@ -90,6 +99,7 @@ while True:
             if curID >=0:
                 retdata = {'message':accounts[curID][2]}
                 sent = sock.sendto(json.dumps(retdata),address)
+                print accounts[curID][0]+"'s deposit: "+accounts[curID][2]
             else:
                 sendErrMsg(address, "error: account not find")
         elif recvdata['action'] == "bomb":
