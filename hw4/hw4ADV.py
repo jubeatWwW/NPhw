@@ -29,7 +29,6 @@ def sendOKMsg(addr):
 def sendErrMsg(addr, msg):
     retdata = {'message':msg}
     sent = sock.sendto(json.dumps(retdata), addr)
-    print "error: "+msg
 
 def searchAccByName(name):
     for account in accounts:
@@ -53,24 +52,18 @@ while True:
         for i in savelist:
             if i[2] == 0:
                 accounts[i[0]][2] += i[1]
-                print accounts[i[0]][0]+"  "+str(i[1])+" saved"
-                print accounts[i[0]][0]+"'s deposit: "+str(accounts[i[0]][2])
                 savelist.remove(i)
 
         for i in remitlist:
             if i[3] == 0:
                 accounts[i[2]][2] += i[1]
-                print accounts[i[2]][0]+"  "+str(i[1])+" get"
-                print accounts[i[2]][0]+"'s deposit: "+str(accounts[i[2]][2])
                 remitlist.remove(i)
 
         if bombcnt[0]==1 and bombcnt[1]==0:
             for i in range(0,len(accounts)):
                 accounts[i][2] = 0
-                print "boom!!!"
                 bombcnt = [0,0]
 
-        print "Receive Action: "+recvdata['action']
 
         if recvdata['action'] == "init":
             idchk = searchAccByID(recvdata['account_id'])
@@ -85,7 +78,6 @@ while True:
                 """accounts[curID][2] += recvdata['money']"""
                 sendOKMsg(address)
                 savelist.append([curID,recvdata['money'],2])
-                print accounts[curID][0]+" request to save "+str(recvdata['money'])
             else:
                 sendErrMsg(address, "error: account not find")
         elif recvdata['action'] == "withdraw":
@@ -94,8 +86,6 @@ while True:
                 if accounts[curID][2] >= recvdata['money']:
                     accounts[curID][2] -= recvdata['money']
                     sendOKMsg(address)
-                    print accounts[curID][0]+" withdraw "+str(recvdata['money'])
-                    print accounts[curID][0]+"'s deposit: "+str(accounts[curID][2])
                 else:
                     sendErrMsg(address, "invalid transaction")
             else:
@@ -108,8 +98,6 @@ while True:
                     accounts[curID][2] -= recvdata['money']
                     """accounts[desID][2] += recvdata['money']"""
                     sendOKMsg(address)
-                    print accounts[curID][0]+" send "+str(recvdata['money'])
-                    print accounts[curID][0]+"'s deposit: "+str(accounts[curID][2])
                     remitlist.append([curID,recvdata['money'],desID,3])
                 else:
                     sendErrMsg(address, "invalid transaction")
@@ -142,7 +130,6 @@ while True:
             remitlist[i][3] -= 1
         if bombcnt[0] == 1:
             bombcnt[1] -= 1
-        print "-----------------------------"
         """
         print "-----------------------------"
         print accounts
