@@ -27,4 +27,4 @@ def cmdrd(commandlist, user):
                 else:
                     return "args error\n"
     except getopt.GetoptError:
-        return "option error(except)\n"
+        return "option error\n"

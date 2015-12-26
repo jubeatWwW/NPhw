@@ -1,5 +1,6 @@
 import getopt
 from data import *
+from getTime import getTimeStr
 
 def textParser(text):
     if text[0] == '\"' and text[-1:] == '\"':
@@ -30,10 +31,10 @@ def cmdwt(commandlist, user):
             receiver = receiver[1:-1]
 
         if receiver in [x[0] for x in users]:
-            mbox[receiver].append([(user,"data",textParser(title),textParser(content)),'new'])
+            mbox[receiver].append([(user,getTimeStr(),textParser(title),textParser(content)),'new'])
             return "done\n"
         else:
             return "args error\n"
 
     except getopt.GetoptError:
-        return "option error(except)\n"
+        return "option error\n"

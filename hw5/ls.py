@@ -45,4 +45,4 @@ def cmdls(commandlist, user):
             elif opt == "-a":
                 return cmd_ls_opt_a(user)
     except getopt.GetoptError:
-        return "option error(except)\n"
+        return "option error\n"

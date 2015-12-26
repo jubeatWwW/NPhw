@@ -22,4 +22,4 @@ def cmdinit(commandlist, addr):
             if opt == "-u":
                 return usernameChk(arg, addr)
     except getopt.GetoptError:
-        return "option error(except)\n"
+        return "option error\n"
