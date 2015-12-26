@@ -1,8 +1,8 @@
 var fs = require('fs');
 var dgram = require('dgram');
 var file_path = process.argv[2];
-var server_host = process.argv[3]|| "127.0.0.1";
-var server_port = process.argv[4]|| 55668;
+var server_host = process.argv[3]|| "140.113.123.225";
+var server_port = process.argv[4]|| 5566;
 var accounts=[]; //handle all users' udp connection 
 var commands=[]; //handle all commands in file
 var count=1;
