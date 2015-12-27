@@ -91,7 +91,7 @@ def shell(s,addr):
         elif command == "fwd":
             s.sendall(cmdfwd(commandlist,getUserName(addr)))
             continue
-        s.sendall("Hello\n")
+        s.sendall("command error\n")
 
 while True:
     addr = (HOST, PORT)
