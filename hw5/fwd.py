@@ -39,7 +39,7 @@ def cmdfwd(commandlist, user):
                 if content == "args error\n":
                     return content
         fwdlist = contentParser(content,newcontent)
-        return cmdwt(['-d',receiver,'-t',fwdlist[0],'-c',fwdlist[1][:-1]],user)
+        return cmdwt(['-d',receiver+"@nctu.edu.tw",'-t',fwdlist[0],'-c',fwdlist[1][:-1]],user)
 
 
     except getopt.GetoptError:

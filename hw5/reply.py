@@ -36,6 +36,6 @@ def cmdre(commandlist, user):
                 else:
                     return "args error\n"
         wtlist = replycontentParser(replycontent, newcontent)
-        return cmdwt(['-d',wtlist[0],'-t',wtlist[1],'-c',wtlist[2][:-1]],user)
+        return cmdwt(['-d',wtlist[0]+"@nctu.edu.tw",'-t',wtlist[1],'-c',wtlist[2][:-1]],user)
     except getopt.GetoptError:
         return "option error\n"

@@ -21,6 +21,10 @@ def cmdwt(commandlist, user):
         content = ""
         for opt, arg in opts:
             if opt == "-d":
+                arg = textParser(arg)
+                print(arg)
+                if arg[-2:] != 'tw':
+                    return "args error\n"
                 receiver = arg.replace("@nctu.edu.tw", "")
             elif opt == "-t":
                 title = arg
